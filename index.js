@@ -24,10 +24,11 @@ api.use(bodyParser.json())
 api.use('/', (req, res, next)=>{
 
     const {userName, email, password, firstName, lastName} = req.body;
-    if (!userName || !email || !password || !firstName || !lastName) return res.send("Somthing is missing")
-    const isUserExist = users.find((user)=> {return user.userName === userName})
-    if (isUserExist) return res.send("User already exsited")
-    next()
+    if (!userName || !email || !password || !firstName || !lastName) return res.send("Somthing is missing");
+    if (!email.includes("@")) return res.send("Email address is not valid");
+    const isUserExist = users.find((user)=> {return user.userName === userName});
+    if (isUserExist) return res.send("User already exsited");
+    next();
 
 })
 
@@ -37,6 +38,6 @@ api.post('/user/register', (req, res, next) => {
     users.push({userName, email, password, firstName, lastName}) 
     writeToFile.writeToFile('users.json', users )
     console.log(req.body)
-    res.send("this is respone from my api")
+    res.send("User registered is success!")
     
 })
