@@ -1,17 +1,13 @@
 const express = require('express');
 const api = express();
 const port = 3000;
-
 const bodyParser = require('body-parser');
-
 const writeToFile = require('./writeToFile')
-
-
+const writeToTxt = require('./writeToTxt')
 const fs = require('fs');
-
 const data = fs.readFileSync('users.json');
 const users = JSON.parse(data);
-
+const moment = require('moment');
 
 
 api.listen(port, (err)=> {
@@ -19,7 +15,9 @@ api.listen(port, (err)=> {
     console.log(`Api is listening to port: ${port}`)
 })
 
+
 api.use(bodyParser.json())
+
 
 api.use('/user/register', (req, res, next)=>{
 
@@ -32,6 +30,7 @@ api.use('/user/register', (req, res, next)=>{
 
 })
 
+
 api.use('/User/login', (req, res, next)=>{
     
     const {userName, password} = req.body;
@@ -40,11 +39,23 @@ api.use('/User/login', (req, res, next)=>{
     next()
 })
 
+
+api.use('/', (req, res, next)=>{
+
+    const { path , ip } = req  
+    const date = moment().format("DD-YY-MM, hh:mm:ss")
+    writeToTxt.writeToTxt("log.txt", path, ip, date)
+
+    next()
+})
+
+
 api.post('/User/login', (req, res, next)=>{
     
     res.send("You are logged-in!!!") 
     next()
 })
+
 
 api.post('/user/register', (req, res, next) => {
     
@@ -57,7 +68,9 @@ api.post('/user/register', (req, res, next) => {
 })
 
 
-api.post('User/login', (req, res, next) => {
+api.get('/admin/users', (req, res, next) => {
 
-
+    return res.download('C:\\Adir\\Jonh Bryce\\Adir avraham\\06 - Node.js\\Lesson3\\Homework\\log-in\\users.json');
 })
+
+

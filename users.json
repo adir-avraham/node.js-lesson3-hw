@@ -33,5 +33,19 @@
     "password": 1111,
     "firstName": "adir",
     "lastName": "Avraham"
+  },
+  {
+    "userName": "Keren",
+    "email": "my email@",
+    "password": 1111,
+    "firstName": "adir",
+    "lastName": "Avraham"
+  },
+  {
+    "userName": "Sarah",
+    "email": "my email@",
+    "password": 1111,
+    "firstName": "adir",
+    "lastName": "Avraham"
   }
 ]
