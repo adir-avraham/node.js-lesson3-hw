@@ -21,7 +21,7 @@ api.listen(port, (err)=> {
 
 api.use(bodyParser.json())
 
-api.use('/', (req, res, next)=>{
+api.use('/user/register', (req, res, next)=>{
 
     const {userName, email, password, firstName, lastName} = req.body;
     if (!userName || !email || !password || !firstName || !lastName) return res.send("Somthing is missing");
@@ -32,12 +32,32 @@ api.use('/', (req, res, next)=>{
 
 })
 
+api.use('/User/login', (req, res, next)=>{
+    
+    const {userName, password} = req.body;
+    const isLogin = users.find((user) =>{ return user.userName === userName && user.password === password});
+    if (!isLogin) return res.send("User name or password is incorrect");
+    next()
+})
+
+api.post('/User/login', (req, res, next)=>{
+    
+    res.send("You are logged-in!!!") 
+    next()
+})
+
 api.post('/user/register', (req, res, next) => {
     
     const {userName, email, password, firstName, lastName} = req.body;
     users.push({userName, email, password, firstName, lastName}) 
     writeToFile.writeToFile('users.json', users )
     console.log(req.body)
-    res.send("User registered is success!")
+    res.send("User registered successfully!")
     
+})
+
+
+api.post('User/login', (req, res, next) => {
+
+
 })
